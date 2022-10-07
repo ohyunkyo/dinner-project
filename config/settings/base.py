@@ -49,7 +49,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'django_filters',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+    'allauth',
+    'allauth.account',
     'management.apps.ManagementConfig'
 ]
 
@@ -86,14 +91,21 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': get_secret("DB_DEFAULT_ENGINE"),
+#         'NAME': get_secret("DB_DEFAULT_NAME"),
+#         'USER': get_secret("DB_DEFAULT_USER"),
+#         'PASSWORD': get_secret("DB_DEFAULT_PASSWORD"),
+#         'HOST': get_secret("DB_DEFAULT_HOST"),
+#         'PORT': get_secret("DB_DEFAULT_PORT"),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': get_secret("DB_DEFAULT_ENGINE"),
-        'NAME': get_secret("DB_DEFAULT_NAME"),
-        'USER': get_secret("DB_DEFAULT_USER"),
-        'PASSWORD': get_secret("DB_DEFAULT_PASSWORD"),
-        'HOST': get_secret("DB_DEFAULT_HOST"),
-        'PORT': get_secret("DB_DEFAULT_PORT"),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / '../db.sqlite3',
     }
 }
 
@@ -142,3 +154,30 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'management.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
+
+# allauth
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+# dj_rest_auth
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+REST_AUTH_SERIALIZERS = {
+    # 'LOGIN_SERIALIZER': 'management.serializers.UserLoginSerializer'
+
+}
+
+# REST_AUTH_REGISTER_SERIALIZER = 'management.serializers.UserAuthSerializer'
