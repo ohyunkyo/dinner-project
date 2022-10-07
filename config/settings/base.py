@@ -171,13 +171,3 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-
-# dj_rest_auth
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-REST_AUTH_SERIALIZERS = {
-    # 'LOGIN_SERIALIZER': 'management.serializers.UserLoginSerializer'
-
-}
-
-# REST_AUTH_REGISTER_SERIALIZER = 'management.serializers.UserAuthSerializer'
