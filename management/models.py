@@ -28,6 +28,9 @@ class Recipe(models.Model):
 class Ingredient(models.Model):
     name = models.CharField(max_length=32, unique=True)
 
+    def __str__(self):
+        return self.name
+
 
 class IngredientInventory(models.Model):
     ingredient = models.ForeignKey(Ingredient, on_delete=models.PROTECT)
@@ -41,5 +44,6 @@ class InventoryLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     recipe = models.ForeignKey(Recipe, on_delete=models.PROTECT, null=True, blank=True)
     quantity = models.IntegerField()
-    method = models.CharField(max_length=16)
+    process_name = models.CharField(max_length=32)
+    is_increased = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
