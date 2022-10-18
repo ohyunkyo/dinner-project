@@ -27,10 +27,22 @@ class IngredientInventorySerializer(serializers.ModelSerializer):
 		fields = ['id', 'ingredient', 'user', 'detail', 'unit']
 
 
+class InventoryLogCreateSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = InventoryLog
+		fields = ['ingredient_inventory', 'recipe', 'quantity', 'process_name', 'is_increased']
+
+
 class InventoryLogSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = InventoryLog
 		fields = '__all__'
+
+
+class RecipeCreateSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Recipe
+		fields = ['name', 'ingredients', 'methods']
 
 
 class RecipeSerializer(serializers.ModelSerializer):

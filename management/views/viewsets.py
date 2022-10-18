@@ -5,7 +5,8 @@ from rest_framework import status as HttpStatus
 
 from management.filters import UserFilter, IngredientFilter
 from management.models import User, Ingredient, IngredientInventory, InventoryLog, Recipe
-from management.serializers import UserSerializer, IngredientSerializer, IngredientInventorySerializer, IngredientInventoryCreateSerializer, InventoryLogSerializer, RecipeSerializer
+from management.serializers import UserSerializer, IngredientSerializer, IngredientInventorySerializer, IngredientInventoryCreateSerializer, InventoryLogSerializer, RecipeSerializer, \
+    InventoryLogCreateSerializer, RecipeCreateSerializer
 
 
 class UserModelViewSet(ModelViewSet):
@@ -43,8 +44,28 @@ class InventoryLogModelViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     serializer_class = InventoryLogSerializer
 
+    def create(self, request, *args, **kwargs):
+        serializer = InventoryLogCreateSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+
+            return Response(serializer.data, HttpStatus.HTTP_200_OK)
+        else:
+            return Response(serializer.errors)
+
 
 class RecipeModelViewSet(ModelViewSet):
     queryset = Recipe.objects.all()
     filter_backends = [DjangoFilterBackend]
     serializer_class = RecipeSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = RecipeCreateSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+
+            return Response(serializer.data, HttpStatus.HTTP_200_OK)
+        else:
+            return Response(serializer.errors)
